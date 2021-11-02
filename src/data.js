@@ -13,7 +13,7 @@ const Data = () => {
     }, [])
 
     const fetchData = () => {
-        fetch('/list')
+        fetch('https://theformback.herokuapp.com/list')
         .then(response => response.json())
         .then(data => setData(data))
         .catch(err => console.error(err))
