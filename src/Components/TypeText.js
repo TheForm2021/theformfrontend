@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
-const Answer = ({ question, saveAnswer }) => {
+export default function TypeText ({ question, saveAnswer }) {
     const [text, setText] = useState([]);
 
     // the post-array-item is generated here and saved by the inherited saveAnswer-parameter.
+    
     const handeleChanged = (e) => {
         setText(e.target.value)
         saveAnswer({
-            "question": { "questionId": question.questionId },
-            "answerText": e.target.value
+            "id": question.questionId,
+            "answer": e.target.value
         })
     }
-
+    
     return (
-        <div>
-            <label>{question.questionText}</label>
-            <br/>
+        <FormControl sx={{ my: 2 }}>
+            <FormLabel>{ question.questionText }</FormLabel>
             <TextareaAutosize
+                id={question.questionId}
                 type="text"
                 value={text}
                 required onChange={handeleChanged}
@@ -26,10 +29,6 @@ const Answer = ({ question, saveAnswer }) => {
                 placeholder="Empty"
                 style={{ width: 400 }}
             />
-            <br/>
-            <br/>
-        </div>
-
+        </FormControl>
     );
 }
-export default Answer;

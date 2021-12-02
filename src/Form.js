@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import Answer from './Answer'
 import axios from 'axios'
+import TypeCheck from './Components/TypeCheck';
+import TypeRadio from './Components/TypeRadio';
+import TypeText from './Components/TypeText';
 
 const Form = ({ data }) => {
     const { id } = useParams();
@@ -23,33 +25,19 @@ const Form = ({ data }) => {
 
     }, [data])
 
-    // while typing in the input fileds -> the first char is saved and the following chars are updated to answers-array.
+    // the entered values are first stored in the object in update-array,
+    // then objects with different id's (not matching with current id) are pushed to update-array,
+    // and finaly the old answers is replaced by the update-array.
     const saveAnswer = (answer) => {
-        idExists(answer.question.questionId) ? update(answer) : add(answer)
+        let update = answer.answer.length > 0 ? [{ 'id': answer.id, 'answer': answer.answer}] : []
+        answers.forEach(a => a.id !== answer.id && update.push(a))
+        setAnswers(update)
+        //console.log(update)
     }
-
-    // the decision to update or to save is based on wether the id exists in answers-array.
-    const idExists = (questionId) => {
-        return answers.some(function(a) {
-            return a.question.questionId === questionId;
-        }); 
-    }
-
-    const add = (toAdd) => {
-        setAnswers([...answers, toAdd])
-    }
-
-    // updating the answer string (after each char) is done by overwriting previous string using its index.
-    const update = (toUpdate) => {
-        let updated = answers;
-        let id = answers.findIndex(a => a.question.questionId === toUpdate.question.questionId);
-        updated[id].answerText = toUpdate.answerText;
-        setAnswers(updated)
-    } 
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-
+        e.preventDefault()
+        console.log(answers)
         axios.post('https://theformback.herokuapp.com/answers', answers )
         .then(response=> {
             if (response.status === 200) {
@@ -58,44 +46,20 @@ const Form = ({ data }) => {
                 console.log('Lisäys ei onnistunut');
             }
         }) 
-        
-        /*
-        
-        axios({
-            method: 'post',
-            url: 'https://theformback.herokuapp.com/answers',
-            data: answers
-
-        });
-
-        
-
-        console.log(answers)
-
-        console.log(
-
-            [
-                {
-                    "question": { "questionId": 4 },
-                    "answerText": "Onko kivaa?"
-                },
-                {
-                    "question": { "questionId": 5 },
-                    "answerText": "Miten menee?"
-                },
-                {
-                    "question": { "questionId": 6 },
-                    "answerText": "Toimiiko mikään?"
-                }
-            ]
-        )
-        */
     }
 
     const cleare = () => {
         window.location.reload();
     }
 
+    const component = (question) => {
+        var type = '';
+        type = question.type === "checkbox" ? <TypeCheck question={ question } saveAnswer={ saveAnswer } answers={ answers }/> :
+        type = question.type === "radiobutton" ? <TypeRadio question={ question } saveAnswer={ saveAnswer }/> :
+        type = question.type === "text" && <TypeText question={ question } saveAnswer={ saveAnswer }/>
+        return type
+
+    }
     return (
         <form onSubmit={handleSubmit}>
             <Link to='/'>Palaa</Link>  
@@ -105,7 +69,7 @@ const Form = ({ data }) => {
             <br/>
             { questions.map((question) => (
                 <div key={ question.questionId }>
-                    <Answer question={ question } saveAnswer={ saveAnswer }></Answer>             
+                    {component(question)}            
                 </div>
             ))}
             <br/>

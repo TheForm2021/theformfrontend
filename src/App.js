@@ -9,9 +9,10 @@ import Form from './Form';
 const App = () => {
 
   //I have included a test_data.json file in the repository, that can be used instead of the REST api for test purposes.
-  //let dataFromJson = require('./test_data.json');
+  let dataFromJson = require('./test_data.json');
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(dataFromJson);
+  /*
   useEffect(() => {
       fetchData();
   }, [])
@@ -21,6 +22,7 @@ const App = () => {
       .then(d => setData(d))
       .catch(err => console.error(err))
   }
+  */
 
   // router supports two different endpoints; one for listing the questionnaires (./) and another for the individual questionnaires (./form:id)
   return (
