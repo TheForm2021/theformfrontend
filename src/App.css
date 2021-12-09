@@ -1,11 +1,8 @@
 
-.Container{
-  padding: 24px;
+.Cont {
+  margin-bottom: 24px
 }
 
-.Inquiry{
-  background-color: #fafafa;
-}
 .Inquiry a{
   text-decoration: none;
   color: #222;
@@ -13,4 +10,12 @@
 
 .Inquiry:hover {
   box-shadow: 10x 3px 5px #666;;
+}
+
+.App {
+  padding: 24px;
+  background-color: #fefefe;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

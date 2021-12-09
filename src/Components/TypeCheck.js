@@ -44,7 +44,7 @@ export default function TypeCheck({ question, saveAnswer, answers }) {
         {question.options.map((o) => (
           <FormControlLabel
             key={ o.optionId }
-            control={ <Checkbox value={ o.optionId} id={question.questionId.toString()} onChange={handeleChanged}/> }
+            control={ <Checkbox value={ o.optionText} id={question.questionId.toString()} onChange={handeleChanged}/> }
             label={ o.optionText }
           />))}
     </FormGroup>

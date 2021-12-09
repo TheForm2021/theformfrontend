@@ -35,15 +35,27 @@ const Form = ({ data }) => {
         //console.log(update)
     }
 
+    // before sending the data we need to unnest the checkbox answers and wrap the questionId in a question object.
+    // from {id:1, answer:[1,2]}
+    // to [{ "question":{ "questionId":1 }, "answerText":1 }, { "question":{ "questionId":1 }, "answerText":2 }]
+    const reformat = () => {
+    const unnested = [];
+    answers.forEach(answer => typeof answer.answer === "string" ?
+    unnested.push({ "question":{ "questionId": answer.id }, "answerText": answer.answer }) :
+    answer.answer.forEach(a => unnested.push({ "question":{ "questionId": answer.id}, "answerText": a })));
+    console.log(unnested)
+    return unnested
+
+   }
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(answers)
-        axios.post('https://theformback.herokuapp.com/answers', answers )
+        const unnested = reformat();
+        axios.post('https://theformback.herokuapp.com/answers', unnested)
         .then(response=> {
             if (response.status === 200) {
-                console.log('Lisättiin');
+                console.log("Lisättiin");
             } else {
-                console.log('Lisäys ei onnistunut');
+                console.log("Lisäys ei onnistunut");
             }
         }) 
     }
@@ -54,9 +66,9 @@ const Form = ({ data }) => {
 
     const component = (question) => {
         var type = '';
-        type = question.type === "checkbox" ? <TypeCheck question={ question } saveAnswer={ saveAnswer } answers={ answers }/> :
-        type = question.type === "radiobutton" ? <TypeRadio question={ question } saveAnswer={ saveAnswer }/> :
-        type = question.type === "text" && <TypeText question={ question } saveAnswer={ saveAnswer }/>
+        type = question.type.typeText === "Checkbox" ? <TypeCheck question={ question } saveAnswer={ saveAnswer } answers={ answers }/> :
+        type = question.type.typeText === "Radiobutton" ? <TypeRadio question={ question } saveAnswer={ saveAnswer }/> :
+        type = question.type.typeText === "Text" && <TypeText question={ question } saveAnswer={ saveAnswer }/>
         return type
 
     }
