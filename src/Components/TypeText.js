@@ -11,7 +11,7 @@ export default function TypeText ({ question, saveAnswer }) {
     const handeleChanged = (e) => {
         setText(e.target.value)
         saveAnswer({
-            "id": question.questionId,
+            "id": question.questionId.toString(),
             "answer": e.target.value
         })
     }

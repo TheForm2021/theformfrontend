@@ -10,7 +10,7 @@ export default function TypeRadio({ question, saveAnswer }) {
 
   const handeleChanged = (e) => {
     saveAnswer({
-        "id": question.questionId,
+        "id": question.questionId.toString(),
         "answer": e.target.value
     })
   }

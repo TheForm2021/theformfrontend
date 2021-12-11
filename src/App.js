@@ -33,7 +33,7 @@ const App = () => {
       <div className="App">
         <Switch>
           <Route exact path="/">
-            <List data={ data }/>
+            <List data={ data } user='user'/>
           </Route>
           <Route path="/form/:id">
             <Form data={ data } />
