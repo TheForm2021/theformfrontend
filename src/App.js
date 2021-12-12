@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import List from './List';
 import Form from './Form';
+import Answers from './Answers';
 
 
 
@@ -32,11 +33,17 @@ const App = () => {
     <Router>
       <div className="App">
         <Switch>
-          <Route exact path="/">
-            <List data={ data } user='user'/>
+          <Route exact path={"/:user"}>
+            <List data={ data } />
           </Route>
-          <Route path="/form/:id">
-            <Form data={ data } />
+          <Route exact path={"/:admin"}>
+            <List data={ data } />
+          </Route>
+          <Route exact path="/form/:id">
+            <Form data={ data }/>
+          </Route>
+          <Route exact path="/answers/:id">
+            <Answers data={ data }/>
           </Route>
         </Switch>
       </div>

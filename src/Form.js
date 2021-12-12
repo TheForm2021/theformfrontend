@@ -33,6 +33,7 @@ const Form = ({ data }) => {
         answers.forEach(a => a.question.questionId!== answer.id && update.push(a))
         setAnswers(update)
     }
+    // a separate add & delete function for checkbox since it might contain multiple answers under single id
     const updateCheckbox = (answer) => {
         let update = [...answers]
         let current = [{ "question":{ "questionId": answer.id.toString() }, "answerText": answer.answer }]
@@ -67,7 +68,7 @@ const Form = ({ data }) => {
     }
     return (
         <form onSubmit={handleSubmit}>
-            <Link to='/' >Palaa</Link>  
+            <Link to='/quest'>Palaa</Link>  
             <h2> { header } </h2>
             <label> { description } </label>
             <br/>
