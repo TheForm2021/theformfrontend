@@ -19,13 +19,13 @@ const App = () => {
   useEffect(() => {
       fetchData();
   }, [])
+
   const fetchData = () => {
       fetch('https://theformback-sprint3.herokuapp.com/restquestionnarylist')
       .then(response => response.json())
       .then(d => setData(d))
       .catch(err => console.error(err))
   }
-  
 
   // router supports two different endpoints; one for listing the questionnaires (./) and another for the individual questionnaires (./form:id)
   return (

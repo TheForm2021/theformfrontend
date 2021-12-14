@@ -6,6 +6,9 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 
 export default function Piechart({ question }) {
+
+    const json = JSON.stringify(question.answers);
+    console.log(json)
     const data = [{
         values: [19, 26, 55],
         labels: ['Residential', 'Non-Residential', 'Utility'],
@@ -39,17 +42,3 @@ export default function Piechart({ question }) {
         </>
     );
 }
-/*
-var data = [{
-  values: [19, 26, 55],
-  labels: ['Residential', 'Non-Residential', 'Utility'],
-  type: 'pie'
-}];
-
-var layout = {
-  height: 400,
-  width: 500
-};
-
-Plotly.newPlot('myDiv', data, layout);
-*/

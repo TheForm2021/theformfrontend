@@ -13,14 +13,14 @@ const Answers = ({ data }) => {
     useEffect(() => {
 
         // finds the questionnary that matches the id provided by router
-        const questionnary = data.filter(q => q.questionnaryId == id)
+        const questionnary = data.filter(q => q.questionnaryId.toString() === id)
         if (questionnary.length > 0) {
             setHeader(questionnary[0].header)
             setDescription(questionnary[0].description)
             setQuestions(questionnary[0].questions)
         }
 
-    }, [data])
+    }, [data, id])
 
     const component = (question) => {
         var type = '';

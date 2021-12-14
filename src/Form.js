@@ -8,22 +8,21 @@ import TypeText from './Components/TypeText';
 
 const Form = ({ data }) => {
     const { id } = useParams();
-    const [header, setHeader] = useState([]);
-    const [description, setDescription] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [answers, setAnswers] = useState([]);
+    const [current, setCurrent] = useState([]);
 
     useEffect(() => {
 
         // finds the questionnary that matches the id provided by router
-        const questionnary = data.filter(q => q.questionnaryId == id)
+
+        const questionnary = data.filter(q => q.questionnaryId.toString() === id)
         if (questionnary.length > 0) {
-            setHeader(questionnary[0].header)
-            setDescription(questionnary[0].description)
             setQuestions(questionnary[0].questions)
+            setCurrent(questionnary[0])
         }
 
-    }, [data])
+    }, [data, id])
 
     // the entered values are first stored in the object in update-array,
     // then objects with different id's (not matching with current id) are pushed to update-array,
@@ -42,8 +41,7 @@ const Form = ({ data }) => {
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(answers)
+        //e.preventDefault()
         axios.post('https://theformback-sprint3.herokuapp.com/answers', answers)
         .then(response=> {
             if (response.status === 200) {
@@ -66,11 +64,12 @@ const Form = ({ data }) => {
         return type
 
     }
+
     return (
         <form onSubmit={handleSubmit}>
             <Link to='/quest'>Palaa</Link>  
-            <h2> { header } </h2>
-            <label> { description } </label>
+            <h2> { current.header } </h2>
+            <label> { current.description } </label>
             <br/>
             <br/>
             { questions.map((question) => (
