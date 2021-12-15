@@ -1,20 +1,15 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import List from './List';
-import Form from './Form';
-import Answers from './Answers';
+import List from './Components/List';
+import Form from './Components/Form';
+import Answers from './Components/Answers';
 
 
 
 const App = () => {
 
-  //I have included a test_data.json file in the repository, that can be used instead of the REST api for test purposes.
-  //let dataFromJson = require('./test_data.json');
-
-  //https://theformback-sprint2.herokuapp.com/restquestionnarylist'
-
-  const [data, setData] = useState([]);
+const [data, setData] = useState([]);
   
   useEffect(() => {
       fetchData();

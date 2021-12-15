@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import TextAnswer from './Components/TextAnswer';
-import Piechart from './Components/Piechart';
+import TextAnswer from './TextAnswer';
+import Piechart from './Piechart';
 
 const Answers = ({ data }) => {
     const { id } = useParams();
@@ -22,6 +22,7 @@ const Answers = ({ data }) => {
 
     }, [data, id])
 
+    // printing the right component depending on the type on of question.
     const component = (question) => {
         var type = '';
         type = question.type.typeText === "Checkbox" ? <Piechart question={ question }/> :
@@ -33,7 +34,7 @@ const Answers = ({ data }) => {
     return (
         <>
             <Link to='/admin' >Palaa</Link>  
-            <h2> { header } </h2>
+            <h2> Vastaukset kyselyyn: { header } </h2>
             <label> { description } </label>
             <br/>
             <br/>

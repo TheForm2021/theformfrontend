@@ -1,4 +1,4 @@
-import './App.css';
+import '../App.css';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Card from '@mui/material/Card';
@@ -9,6 +9,12 @@ import { CardActionArea } from '@mui/material';
 const List = ({ data }) => {
 
     const { user } = useParams();
+
+    // in the printout there are a lot of else-if condition depending on 
+    // whether the user is on 'admin' or 'quest' page
+
+    // e.g. Link on top of the page is a toggle between 'kirjaudu adminiksi'
+    // and 'kirjaudu ulos' depending on whether user is on admin or quest page. 
 
     return (
         <>

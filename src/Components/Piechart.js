@@ -7,19 +7,20 @@ import React, { useState, useEffect } from 'react';
 
 export default function Piechart({ question }) {
 
-    //const json = JSON.stringify(question.answers);
-    //console.log(json)
-
     const [values, setValues] = useState([]);
     const [labels, setLabels] = useState([]);
+    const [numberOfAnswerers, setNumberOfAnswerers] = useState([]);
 
     useEffect(() => {
         let num = []
-        const data = question.answers.map(a => a.answerText);
-        const unique = [...new Set(data)];
-        unique.forEach(text => num.push(data.filter(a => a === text).length))
-        setLabels(unique);
+        const text = question.answers.map(a => a.answerText);
+        const answerer = question.answers.map(a => a.answerer.answererId);
+        const uniqueText = [...new Set(text)];
+        const uniqueAnswerer = [...new Set(answerer)];
+        uniqueText.forEach(item => num.push(text.filter(a => a === item).length))
+        setLabels(uniqueText);
         setValues(num)
+        setNumberOfAnswerers(uniqueAnswerer.length)
     }, [question])
 
     return (
@@ -28,6 +29,9 @@ export default function Piechart({ question }) {
                 <CardContent>
                     <Typography gutterBottom variant="body2" color="text.secondary">
                         {question.questionText}
+                    </Typography>
+                    <Typography gutterBottom variant="body2" color="text.secondary">
+                        Kysymykseen on vastannut {numberOfAnswerers}.
                     </Typography>
                     <Plot
                         data={[{ values: values, labels: labels, type: 'pie' }]}

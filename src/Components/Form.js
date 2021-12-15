@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import TypeCheck from './Components/TypeCheck';
-import TypeRadio from './Components/TypeRadio';
-import TypeText from './Components/TypeText';
+import TypeCheck from './TypeCheck';
+import TypeRadio from './TypeRadio';
+import TypeText from './TypeText';
 
 const Form = ({ data }) => {
     const { id } = useParams();
@@ -15,7 +15,6 @@ const Form = ({ data }) => {
     useEffect(() => {
 
         // finds the questionnary that matches the id provided by router
-
         const questionnary = data.filter(q => q.questionnaryId.toString() === id)
         if (questionnary.length > 0) {
             setQuestions(questionnary[0].questions)
@@ -32,6 +31,7 @@ const Form = ({ data }) => {
         answers.forEach(a => a.question.questionId!== answer.id && update.push(a))
         setAnswers(update)
     }
+    
     // a separate add & delete function for checkbox since it might contain multiple answers under single id
     const updateCheckbox = (answer) => {
         let update = [...answers]
@@ -41,7 +41,6 @@ const Form = ({ data }) => {
     }
 
     const handleSubmit = (e) => {
-        //e.preventDefault()
         axios.post('https://theformback-sprint3.herokuapp.com/answers', answers)
         .then(response=> {
             if (response.status === 200) {
@@ -52,10 +51,12 @@ const Form = ({ data }) => {
         }) 
     }
 
+    // providing an option for user to clear the form if he/she becomes unwilling to fill it through.
     const cleare = () => {
         window.location.reload();
     }
 
+    // printing the right component depending on the type on of question.
     const component = (question) => {
         var type = '';
         type = question.type.typeText === "Checkbox" ? <TypeCheck question={ question } updateCheckbox={ updateCheckbox }/> :
